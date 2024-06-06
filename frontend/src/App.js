@@ -33,8 +33,8 @@ import EventsPage from "./pages/Events";
 import EventDetailPage from "./pages/EventDetail";
 import NewEventPage from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
-import RootLayout from "./layouts/root";
-import EventLayout from "./layouts/event";
+import RootLayout from "./layouts/Root";
+import EventLayout from "./layouts/Event";
 
 const router = createBrowserRouter([
   {
