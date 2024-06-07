@@ -29,7 +29,7 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Home";
-import EventsPage from "./pages/Events";
+import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import EventDetailPage from "./pages/EventDetail";
 import NewEventPage from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
@@ -46,7 +46,23 @@ const router = createBrowserRouter([
         path: "events",
         element: <EventLayout />,
         children: [
-          { index: true, path: "", element: <EventsPage /> },
+          /*
+            We can use React Router (version 6 and higher) to initiate
+            data fetching as soon as we start navigating to the EventsPage!
+
+            In other words, we can initiate data fetching as soon as, or even
+            BEFORE, we render the EventsPage component
+
+            And then we render the component with the fetched data!
+
+            React Router gives you the "loader" property which that takes a
+            function as a value and executes it when we're about to visit a
+            route!
+
+            So just before the EventsPage component gets rendered, the loader
+            function is executed and gets the fetched data
+          */
+          { index: true, path: "", element: <EventsPage />, loader: eventsLoader },
           { path: ":eventId", element: <EventDetailPage /> },
           { path: "new", element: <NewEventPage /> },
           { path: ":eventId/edit", element: <EditEventPage /> }
