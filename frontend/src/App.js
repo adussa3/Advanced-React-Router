@@ -35,11 +35,24 @@ import NewEventPage from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
 import RootLayout from "./layouts/Root";
 import EventLayout from "./layouts/Event";
+import ErrorPage from "./pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    /*
+      errorElement is used as a fallback page that's displayed for 404 errors (navigating to paths that aren't supported)
+
+      But that's not it's only usecase. The errorElement is also shown to the screen whenever an error is generated in
+      any route related code, including loaders!
+
+      ErrorPage will be displayed whenever we have any kind of error anywhere in our routes
+
+      NOTE:
+      errors in routes will bubble up to the CLOSEST errorElement
+    */
+    errorElement: <ErrorPage />,
     children: [
       { index: true, path: "", element: <HomePage /> },
       {

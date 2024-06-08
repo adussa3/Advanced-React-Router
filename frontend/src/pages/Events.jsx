@@ -33,32 +33,73 @@ function EventsPage() {
 
         NOTE: we can use useLoaderData() directly inside the EventList component
     */
-    const events = useLoaderData();
+    const data = useLoaderData();
+
+    if (data.isError) {
+        // One way to handle errors
+        // return <p>{data.message}</p>;
+
+        // Another way to handle errors
+        // you can use the Error() constructor or throw an object as an error
+        //
+        // NOTE:
+        // When an error gets thrown in a loader, React Router will simply render
+        // the closest error element!
+        throw { message: "Could not fetch events." };
+    }
+
+    const events = data.events;
 
     return <EventsList events={events} />;
 }
 
 export default EventsPage;
 
+// This loader code does NOT execute in a server! It all happens on a browser!
+// This is still client-side code! This means we can use brower APIs in our
+// loader function:
+// You can access localStorage, cookies, etc.
+// But you CANNOT use React Hooks inside of the loader function! (This is because React Hooks can only be accessed in React Components!)
 export async function loader() {
     const response = await fetch("http://localhost:8080/events");
 
     if (!response.ok) {
-        // ...
+        // Error Handling
+        return { isError: true, message: "Could not fetch events." };
     } else {
-        const resData = await response.json();
+        /*
+            NOTE: when we define a loader function, React Router will
+            automatically take any value you return in the function
+            and make it available in the page being rendered, as well
+            as any other components that need it!
+            
+            In this example, resData.events is being sent to the EventsPage!
+            
+            NOTE: usually, anything that's returned in an async function wraps
+                it in a promise! But React Router is will actually check if
+                a promise is returned and automaticalyl get the resolved data
+                from that promise for us!
+            const resData = await response.json();
+            return resData.events;
+        */
 
-        // NOTE: when we define a loader function, React Router will
-        // automatically take any value you return in the function
-        // and make it available in the page being rendered, as well
-        // as any other components that need it!
-        //
-        // In this example, resData.events is being sent to the EventsPage!
-        //
-        // NOTE: usually, anything that's returned in an async function wraps
-        //       it in a promise! But React Router is will actually check if
-        //       a promise is returned and automaticalyl get the resolved data
-        //       from that promise for us!
-        return resData.events;
+        /*
+            Creating a new Response object
+            We can create a Response here because the browser supports the Response constructor and Response object
+            The Response constructor takes in any data of your choice as a first argument, and you can set an object
+            as the second argument to provide greater detail
+            
+            Whenever you return a Response in your loaders, the React Router package will AUTOMTICALLY extract data
+            from your Response when using hte useLoaderData() hook - it returns the response data (the first argument)
+            
+            Now the question is, why would we return the Response object instead of directly returning the data? It's
+            because it's common in loader functions to reach out to a backend with the browser's built-in fetch function
+            This fetch function actually returns a promise that's resolves to a response!
+            
+            Now combining React Router's support for these Response objects and its automatic data extraction, it means
+            that we can take the Response and directly return it! We don't need to manually extract data from the Response
+            const res = new Response("any data", { status: 201 });
+        */
+        return response;
     }
 }
