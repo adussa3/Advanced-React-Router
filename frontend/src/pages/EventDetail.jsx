@@ -1,4 +1,4 @@
-import { json, useLoaderData, useParams } from "react-router-dom";
+import { json, useLoaderData, useParams, useRouteLoaderData } from "react-router-dom";
 
 import EventItem from "../components/EventItem";
 
@@ -18,8 +18,21 @@ export default function EventDetailPage() {
         "closest" loader data
 
         NOTE: we can use useLoaderData() directly inside the EventList component
+
+        ALSO NOTE:
+        So when we call useLoaderData() it searches for the CLOSEST loader available data,
+        and the highest level at which it looks for data is the route definition of the
+        route for which this EventDetailsPage component was loaded
+        
+        const data = useLoaderData();
+
+        So in this case, the highest level it looks for data is the EventDetailsPage component
+        but we actually want loader data from its parent route, (with path: ":eventId")
+
+        Therefore, use use the useRouteLoaderData() to directly get the loader data from the parent!
+        It hook works almost like useLoaderData(), but it takes a route ID as an argument!
     */
-    const data = useLoaderData();
+    const data = useRouteLoaderData("event-detail");
 
     const event = data.event;
 

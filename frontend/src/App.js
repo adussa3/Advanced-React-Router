@@ -77,14 +77,23 @@ const router = createBrowserRouter([
             function is executed and gets the fetched data
           */
           { index: true, path: "", element: <EventsPage />, loader: eventsLoader },
-          { path: ":eventId", element: <EventDetailPage />, loader: eventDetailLoader },
+          {
+            path: ":eventId",
+            // We add a special id property so that the children route definition can
+            // access this route
+            id: "event-detail",
+            loader: eventDetailLoader,
+            children: [
+              { index: true, path: "", element: <EventDetailPage /> },
+              { path: "edit", element: <EditEventPage /> }
+            ]
+          },
           { path: "new", element: <NewEventPage /> },
-          { path: ":eventId/edit", element: <EditEventPage /> }
         ]
       }
     ]
   }
-])
+]);
 
 function App() {
   return <RouterProvider router={router}></RouterProvider>;
