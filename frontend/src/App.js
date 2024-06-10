@@ -32,7 +32,7 @@ import HomePage from "./pages/Home";
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import { loader as eventDetailLoader } from "./pages/EventDetail";
 import EventDetailPage from "./pages/EventDetail";
-import NewEventPage from "./pages/NewEvent";
+import NewEventPage, { action as newEventAction } from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
 import RootLayout from "./layouts/Root";
 import EventLayout from "./layouts/Event";
@@ -88,7 +88,9 @@ const router = createBrowserRouter([
               { path: "edit", element: <EditEventPage /> }
             ]
           },
-          { path: "new", element: <NewEventPage /> },
+          // To submit a form to update data in the Backend API, we can use the "action" property
+          // and just like the "loader" property, action wants a function 
+          { path: "new", element: <NewEventPage />, action: newEventAction },
         ]
       }
     ]
