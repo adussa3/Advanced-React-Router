@@ -79,6 +79,24 @@ export async function action({ request, params }) {
     });
 
     /*
+        We don't want to throw a generic error response, but instead we want to show validations errors
+        above the form for when the user inputs blank or incorrect data
+
+        We're not returning or redirecting and we're not throwing an error response. Instead we're returning
+        the response we got beck from the backend if we got the 422 status code on the response
+
+        What does returning a response in an action do? Well just like loaders where we can use the returned
+        response and use the response data in our components and pages, we can also use returned action data
+        in our components and pages too!
+
+        This is less common, but it's very common for validation error responses where we DON'T want to show
+        an error page
+    */
+    if (response.status === 422) {
+        return response;
+    }
+
+    /*
         Constructing responses manually by throwing a Response is possible, but annoying
         ex: throw new Response(JSON.stringify({ message: "Could not fetch events." }), { status: 500 });
 

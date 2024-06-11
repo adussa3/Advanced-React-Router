@@ -3,7 +3,7 @@ import classes from './EventItem.module.css';
 
 function EventItem({ event }) {
   // We need to trigger the action and submit the data programatically
-  // and just as we can navigate porgramatically using useNavigate, we
+  // and just as we can navigate programatically using useNavigate, we
   // can also submit data and trigger an action programatically with the
   // special useSubmit hook!
   //

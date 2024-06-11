@@ -1,8 +1,21 @@
-import { Form, useNavigate, useNavigation } from 'react-router-dom';
+import { Form, useActionData, useNavigate, useNavigation } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
 function EventForm({ method, event }) {
+  /*
+    The useActionData hook is similar to useLoaderData (it basically does the same thing)
+
+    It gives us access to the data returned by the action (instead of the loader like in useLoaderData)!
+    And it gives us access to the CLOSEST action!
+
+    Also, just like loaders, this response is automatically parsed by React Router for us (just as it is
+    the case for loaders)
+
+    And therefore, this data is the data we returned in our backend in case of validation errors
+  */
+  const data = useActionData();
+
   /*
     useNavigation is provided by react-router-dom and gives us access to a navigation object
     which we can extract various pieces of information from that object
@@ -68,6 +81,15 @@ function EventForm({ method, event }) {
       This triggers the "action" of another route! (defined in the route defintion in app.js)
     */
     <Form method="post" className={classes.form}>
+      {/* Validation errors */}
+      {data && data.errors &&
+        (<ul>
+          {/* Object.values(data.errors) - a function built into JavaScriptot basically loop through all the keys in the data.errors object */}
+          {Object.values(data.errors).map((error) => {
+            return <li key={error}>{error}</li>
+          })}
+        </ul>)
+      }
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required defaultValue={event ? event.title : ""} />
