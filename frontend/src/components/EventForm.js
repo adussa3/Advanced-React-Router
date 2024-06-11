@@ -33,6 +33,18 @@ function EventForm({ method, event }) {
         This request will NOT be sent to the backend automatically! Instead it will automtatically
         send it to our action, and it will include all of the form data!
     */
+
+    /*
+      This is the default way to trigger action functions - using the special <Form> component offered by React Router
+
+      this is the standard way, this form will AUTOMATICALLY trigger the action function of the currently active route
+
+      NOTE:
+      you could send the request to a different route but adding the "action" property and setting it to another path
+      ex: <Form method="post" acton="/another-path" className={classes.form}>
+
+      This triggers the "action" of another route! (defined in the route defintion in app.js)
+    */
     <Form method="post" className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>

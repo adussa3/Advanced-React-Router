@@ -1,4 +1,4 @@
-import { json, useLoaderData, useParams, useRouteLoaderData } from "react-router-dom";
+import { json, redirect, useLoaderData, useParams, useRouteLoaderData } from "react-router-dom";
 
 import EventItem from "../components/EventItem";
 
@@ -63,4 +63,23 @@ export async function loader({ request, params }) {
     } else {
         return response;
     }
+}
+
+export async function action({ request, params }) {
+    const id = params.eventId;
+    // this gets the 2nd paramter object from the submit function in EventItems.js
+    const response = await fetch("http://localhost:8080/events/" + id, { method: request.method });
+
+    if (!response.ok) {
+        throw json({ message: "Could not delete event." }, { status: 500 });
+    }
+
+    /*
+        redirect, like json(), is a special function from react-router-dom which creates
+        a special response object that redirects users to a different page
+        
+        We need to specify the path were we want to redirect the user and React Router
+        will take care of the rest
+    */
+    return redirect("/events");
 }
