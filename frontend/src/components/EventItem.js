@@ -7,7 +7,7 @@ function EventItem({ event }) {
   // can also submit data and trigger an action programatically with the
   // special useSubmit hook!
   //
-  // The useSubmit hook, is imported form react-router-dom, and it gives
+  // The useSubmit hook, is imported from react-router-dom, and it gives
   // you a submit function which we can call to proceed and trigger an
   // action
   const submit = useSubmit();

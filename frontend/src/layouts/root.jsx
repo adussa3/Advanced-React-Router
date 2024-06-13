@@ -4,7 +4,7 @@ import MainNavigation from "../components/MainNavigation";
 export default function RootLayout() {
     /*
         NOTE:
-        once place where we CANNOT get events using useLoaderData() is in a higher-level route,
+        one place where we CANNOT get events using useLoaderData() is in a higher-level route,
         for example in the RootLayout!
 
         The problem is that we're trying to get data from a route that's actually defined on a
